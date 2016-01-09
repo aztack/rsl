@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="TudouMediaPlayerRSL" basedir="." default="">
+	<property environment="env" />
+    <property name="project.root" value="${basedir}" />
+    <property file="build.properties" />
+	
+    <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+	
+	<!--rsl-->
+	<target name="rsl" description="compiles the Library">
+		<echo message="================================================="/>
+		<echo message="Compile Tudou Media Player Runtime Shared Library"/>
+		<echo message="================================================="/>
+        <fileset dir="${SOURCE_DIR}" id="src.files">
+			<include name="**\**" />
+        </fileset>
+		
+        <pathconvert property="rsl.classes" pathsep=" " dirsep="." refid="src.files">
+			<map from="\" to="/" />
+			<map from="${SOURCE_DIR}/com" to="com" />
+			<!--map from="${SOURCE_DIR}/fl" to="fl" /-->
+			<mapper>
+				<chainedmapper>
+					<globmapper from="*.as" to="*" />
+				</chainedmapper>
+			</mapper>
+        </pathconvert>
+		
+        <compc debug="true" output="${DEPLOY_DIR}/rsl.swc" include-classes="${rsl.classes}" >
+			<source-path path-element="${SOURCE_DIR}" />
+			<define name="CONFIG::FLASH_11" value="false"/>
+        </compc>
+	</target>
+</project>
