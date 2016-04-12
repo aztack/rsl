@@ -70,9 +70,20 @@
 				return obj ? "true" : "false";
 			}
 			else if ( obj is Array ) {
-				for ( var i:int = 0; i < obj.length; i++ ) {
-					if ( info.length > 0 ) info += ", ";
-					info += serialize(obj[i]);	
+				var ln:int = obj.length;
+				if (ln > 0)
+				{
+					for ( var i:int = 0; i < obj.length; i++ ) {
+						if ( info.length > 0 ) info += ", ";
+						info += serialize(obj[i]);
+					}
+				}
+				else {
+					for (var k:* in obj)
+					{
+						if (info.length > 0) info += ", ";
+						info += k + ":" + serialize(obj[k]);
+					}
 				}
 				return "[ " + info + " ]";
 			}
